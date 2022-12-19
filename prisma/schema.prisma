@@ -1,0 +1,84 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  id Int @id @default(autoincrement())
+  tipo String
+  notificaciones Boolean
+  alertas Alerta[]
+  sugerencias Sugerencia[]
+  comentarios Comentario[]
+  daLikeComentario DaLikeComentario[]
+  daLikeAlerta DaLikeAlerta[]
+
+}
+
+model Alerta {
+  id Int @id @default(autoincrement())
+  tipo String
+  descripcion String
+  ubicacion String
+  descripcion_ubicacion String
+  latitude Float
+  longitude Float
+  fecha DateTime  
+  activa Boolean
+  usuarioId Int
+  imagen Imagen?
+  usuario Usuario @relation(fields: [usuarioId], references: [id])
+  comentarios Comentario[]
+  daLikeAlerta DaLikeAlerta[]
+}
+
+model Comentario {
+  id Int @id @default(autoincrement())
+  comentario String
+  fecha DateTime
+  usuarioId Int
+  alertaId Int
+  usuario Usuario @relation(fields: [usuarioId], references: [id])
+  alerta Alerta @relation(fields: [alertaId],references: [id])
+  daLikeComentario DaLikeComentario[]
+}
+
+model Sugerencia {
+  id Int @id @default(autoincrement())
+  sugerencia String
+  usuarioId Int
+  usuario Usuario @relation(fields: [usuarioId], references: [id])
+}
+
+model Imagen {
+  id Int @id @default(autoincrement())
+  url String
+  alertaId Int @unique
+  alerta Alerta @relation(fields: [alertaId], references: [id])
+}
+
+model DaLikeComentario {
+  usuarioId Int
+  comentarioId Int
+  usuario Usuario @relation(fields: [usuarioId], references: [id])
+  comentario Comentario @relation(fields: [comentarioId], references: [id])
+  @@id([usuarioId, comentarioId])
+}
+
+model DaLikeAlerta {
+  usuarioId Int
+  alertaId Int
+  usuario Usuario @relation(fields: [usuarioId], references: [id])
+  alerta Alerta @relation(fields: [alertaId], references: [id])
+  @@id([usuarioId, alertaId])
+}
+
+
+
