@@ -37,15 +37,13 @@ io.on('connection', (socket) => {
         
         setTimeout(() => {    
             alertaControladores.editarAlerta(alert.id).then((alerta) => {
-                socket.broadcast.emit("editarAlerta", alerta);
-                socket.emit("editarAlerta", alerta);
+                socket.broadcast.emit("eliminarAlerta", alerta);
+                socket.emit("eliminarAlerta", alerta);
             }).catch((error) => {
                 console.log("no se pudo editar la alerta");
-                console.log(error);
+                //console.log(error);
             })
-            
-           
-        }, 30000);
+        }, 60000);
 
     }) 
 
@@ -88,10 +86,10 @@ io.on('connection', (socket) => {
 
 })
 
-const PORT = process.env.PORT || 3080;
+const PORT = process.env.PORT || 3002;
 
 
-server.listen(PORT, () => {
+server.listen(PORT,  () => {
     console.log("server corriendo en el puerto "+PORT)
 })
 

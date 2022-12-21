@@ -2,6 +2,7 @@ const prisma = require('../client');
 
 const existeUsuario = async (req, res) => {
     const {correo, contraseña} = req.body;
+
     const cuentas = [{
         id: 1,
         correo: "Elvis@gmail.com",

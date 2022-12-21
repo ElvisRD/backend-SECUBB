@@ -24,11 +24,11 @@ const crearAlerta = async (req, res) => {
             fecha: nuevaFecha,
             latitude: latitude,
             activa: activa,
-            usuario: {connect: {id: usuarioId}}
+            usuario: {connect: {id: usuarioId}},
         },
-        include: {usuario: true, comentarios: true, daLikeAlerta: true}
-
+        include: {usuario: true, daLikeAlerta: true, comentarios: true}
     })   
+
 
     return res.status(201).send({mensaje: "la alerta fue creada correctamente", alerta: alerta})
 
@@ -83,28 +83,16 @@ const eliminarAlerta = async (req,res) => {
 
 const obtenerAlertas = async (req,res) => {
    
-    const activa = req.query.activa;
     let alertas = [];
-    let activaBoolean;
+       
+        alertas = await prisma.alerta.findMany({
+            orderBy: {
+                id: 'desc'
+            },
+             where: {activa: true},
+            include: {usuario: true, comentarios: true , daLikeAlerta: true}
 
-        if(activa === "true"){
-            activaBoolean = true;
-        }else{
-            activaBoolean = false;
-        }
-
-        console.log(activaBoolean);
-      
-        if(activaBoolean === true){
-            alertas = await prisma.alerta.findMany({
-                orderBy: {
-                    id: 'desc'
-                },
-                where: {activa: true},
-                include: {usuario: true, comentarios: true , daLikeAlerta: true}
-
-            })   
-        }
+        })   
         
        if(alertas.length === 0){
            return res.status(404).send({mensaje: "no se encontraron alertas"})
