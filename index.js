@@ -41,9 +41,8 @@ io.on('connection', (socket) => {
                 socket.emit("eliminarAlerta", alerta);
             }).catch((error) => {
                 console.log("no se pudo editar la alerta");
-                //console.log(error);
             })
-        }, 60000);
+        }, 140000000);
 
     }) 
 
@@ -77,6 +76,7 @@ io.on('connection', (socket) => {
     })
 
     socket.on("guardarSugerencia", (sugerencia) => {
+        console.log(sugerencia);
         socket.broadcast.emit("guardarSugerencia", sugerencia);
     })
 

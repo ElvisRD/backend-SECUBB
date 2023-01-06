@@ -3,7 +3,7 @@ const prisma = require('../client');
 const crearSugerencia = async(req,res) => {
     const {sugerencia,usuarioId} = req.body;
 
-    await prisma.sugerencia.create({
+    const nuevaSugerencia = await prisma.sugerencia.create({
         data: {
             sugerencia,
             usuario: { connect: {id: usuarioId}},
@@ -11,7 +11,7 @@ const crearSugerencia = async(req,res) => {
         }
     })
 
-    res.status(201).send({mensaje: "la sugerencia fue creada correctamente"})
+    res.status(201).send({mensaje: "la sugerencia fue creada correctamente", sugerencia: nuevaSugerencia})
 
 }
 

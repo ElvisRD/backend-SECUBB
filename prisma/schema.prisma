@@ -1,6 +1,8 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
+
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -12,6 +14,10 @@ datasource db {
 
 model Usuario {
   id Int @id @default(autoincrement())
+  nombre String
+  apellido String
+  contrasena String
+  correo String @unique
   tipo String
   notificaciones Boolean
   alertas Alerta[]

@@ -3,7 +3,7 @@ const fs = require("fs");
 
 
 const crearAlerta = async (req, res) => {
-    const {tipo,descripcion,ubicacion,descripcion_ubicacion,activa, longitude, latitude ,usuarioId} = req.body;
+    const {tipo,descripcion,ubicacion,descripcion_ubicacion, longitude, latitude ,usuarioId} = req.body;
 
     const nDate = new Date().toLocaleString('es-CL', {
         timeZone: 'America/Santiago'
@@ -23,7 +23,7 @@ const crearAlerta = async (req, res) => {
             longitude: longitude,
             fecha: nuevaFecha,
             latitude: latitude,
-            activa: activa,
+            activa: true,
             usuario: {connect: {id: usuarioId}},
         },
         include: {usuario: true, daLikeAlerta: true, comentarios: true}

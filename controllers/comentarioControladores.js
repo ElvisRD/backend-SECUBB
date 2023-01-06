@@ -19,7 +19,7 @@ const crearComentario = async(req,res) => {
             usuario: { connect: {id: usuarioId}},
             alerta: {connect: {id: alertaId}},
         },
-        include: { daLikeComentario: true}
+        include: { daLikeComentario: true, usuario: true}
     })
 
     res.status(201).send({mensaje: "el comentario fue creado correctamente", nuevoComentario: nuevoComentario})
@@ -42,13 +42,13 @@ const obtenerComentarios = async(req,res) => {
 const editarComentario = async(req,res) => {
     const {id,comentario} = req.body;
 
-    if(!comentario) return res.status(400).send({mensaje: "el comentario no puede estar vacio"});
-
     const comentarioExiste = await prisma.comentario.findFirst({
         where: {id: parseInt(id)}
     });
 
-    if(!comentarioExiste) return res.status(400).send({mensaje: "el comentario no existe"});
+    if(!comentarioExiste) return res.status(404).send({mensaje: "el comentario no existe"});
+
+    if(comentario === comentarioExiste.comentario) return res.status(400).send({mensaje: "el comentario es el mismo"})
 
     await prisma.comentario.update({
         where: {id: parseInt(id)},
