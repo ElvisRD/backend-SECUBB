@@ -47,7 +47,6 @@ io.on('connection', (socket) => {
     }) 
 
     socket.on("comentario", (comentario) => {
-        console.log(comentario);
         socket.broadcast.emit("comentario", comentario);
     }) 
 

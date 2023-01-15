@@ -37,45 +37,48 @@ const crearAlerta = async (req, res) => {
 const eliminarAlerta = async (req,res) => {
     const {id} = req.params;
 
-    console.log("aaa");
     const alerta = await prisma.alerta.findFirst({
         where: {id: parseInt(id)},
-        include: {comentarios: true , daLikeAlerta: true, imagen: true}
+        include: {comentarios: true , daLikeAlerta: true,imagen: true}
 
     })
 
-    if(!alerta) return res.status(404).send({mensaje: "no se encontro la alerta"});
+    if(!alerta) return res.status(404).send({mensaje: "no se encontro alerta"});
 
     if(alerta.imagen !== null){
         const image = await prisma.imagen.findFirst({
             where: {alertaId: {equals: parseInt(id)}}
         })
-
         const urlModificada = image.url.replace(/\\/g, "/");
-
         try{
             fs.unlinkSync('./'+urlModificada);
         }catch(err){
            console.log("la imagen no existe");
         }
-       
     }
 
+    
     if(alerta.comentarios[0] !== undefined){
+        alerta.comentarios.map(async (comentario) => {
+            await prisma.daLikeComentario.deleteMany({
+                where: {comentarioId: comentario.id}
+            })
+        })
+
         await prisma.comentario.deleteMany({
-            where: {alertaId: {equals: parseInt(id)}}
+            where: {alertaId: parseInt(id)}
         })
     }
 
     if(alerta.daLikeAlerta[0] !== undefined){
-        prisma.daLikeAlerta.deleteMany({
-            where: {alertaId: {equals: parseInt(id)}}
+        await prisma.daLikeAlerta.deleteMany({
+            where: {alertaId: parseInt(id)}
         })
-    } 
-
+    }  
+ 
     await prisma.alerta.delete({
         where: {id: parseInt(id)}
-    }) 
+    })  
 
     return res.status(201).send({mensaje: "la alerta fue eliminada correctamente"})
 }
