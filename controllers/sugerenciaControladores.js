@@ -21,6 +21,7 @@ const obtenerSugerencias = async(req,res) => {
         orderBy: {
             id: 'desc'
         },
+        include: {usuario: true}
     });
 
     if(sugerencias[0] !== undefined){

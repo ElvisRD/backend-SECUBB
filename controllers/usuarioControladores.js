@@ -31,7 +31,7 @@ const verificarUsuario = async (req, res) => {
 }
 
 const crearUsuario = async (req, res) => {
-    const {correo,tipo, nombre, apellido} = req.body;
+    const {correo, nombre, apellido} = req.body;
 
     const correoModificado = correo.toLowerCase();
 
@@ -62,7 +62,7 @@ const crearUsuario = async (req, res) => {
                     contrasena: contrasenaEncryptada,
                     nombre: nombre,
                     apellido: apellido,
-                    tipo: tipo,
+                    tipo: "Usuario",
                     notificaciones: true
                 }
             })

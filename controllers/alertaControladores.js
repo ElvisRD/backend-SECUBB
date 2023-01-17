@@ -46,8 +46,8 @@ const eliminarAlerta = async (req,res) => {
     if(!alerta) return res.status(404).send({mensaje: "no se encontro alerta"});
 
     if(alerta.imagen !== null){
-        const image = await prisma.imagen.findFirst({
-            where: {alertaId: {equals: parseInt(id)}}
+        const image = await prisma.imagen.delete({
+            where: {alertaId: parseInt(id)}
         })
         const urlModificada = image.url.replace(/\\/g, "/");
         try{
@@ -75,10 +75,10 @@ const eliminarAlerta = async (req,res) => {
             where: {alertaId: parseInt(id)}
         })
     }  
- 
+
     await prisma.alerta.delete({
         where: {id: parseInt(id)}
-    })  
+    }) 
 
     return res.status(201).send({mensaje: "la alerta fue eliminada correctamente"})
 }

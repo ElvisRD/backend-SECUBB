@@ -29,8 +29,6 @@ app.use('/upload', express.static(path.join(__dirname, '/upload')));
 
 io.on('connection', (socket) => {
 
-    console.log("usuario conectado: "+socket.id);
-
     socket.on("alerta", (alert) => {
         socket.broadcast.emit("alerta", alert);
         socket.broadcast.emit("notificacion", alert);
@@ -42,7 +40,7 @@ io.on('connection', (socket) => {
             }).catch((error) => {
                 console.log("no se pudo editar la alerta");
             })
-        }, 140000000);
+        }, 300000);
 
     }) 
 
@@ -75,7 +73,6 @@ io.on('connection', (socket) => {
     })
 
     socket.on("guardarSugerencia", (sugerencia) => {
-        console.log(sugerencia);
         socket.broadcast.emit("guardarSugerencia", sugerencia);
     })
 
