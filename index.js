@@ -38,9 +38,9 @@ io.on('connection', (socket) => {
                 socket.broadcast.emit("eliminarAlerta", alerta);
                 socket.emit("eliminarAlerta", alerta);
             }).catch((error) => {
-                console.log("no se pudo editar la alerta");
+                console.log("no se pudo desactivar la alerta");
             })
-        }, 300000);
+        }, 7200000);
 
     }) 
 
@@ -78,6 +78,10 @@ io.on('connection', (socket) => {
 
     socket.on("eliminarSugerencia", (sugerencia) => {
         socket.broadcast.emit("eliminarSugerencia", sugerencia);
+    })
+
+    socket.on("cambioTipo", (datos) => {
+        socket.broadcast.emit("cambioTipo", datos); 
     })
 
 })

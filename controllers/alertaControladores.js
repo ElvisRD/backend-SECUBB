@@ -39,10 +39,9 @@ const eliminarAlerta = async (req,res) => {
 
     const alerta = await prisma.alerta.findFirst({
         where: {id: parseInt(id)},
-        include: {comentarios: true , daLikeAlerta: true,imagen: true}
+        include: {comentarios: true , daLikeAlerta: true, imagen: true}
 
     })
-
     if(!alerta) return res.status(404).send({mensaje: "no se encontro alerta"});
 
     if(alerta.imagen !== null){
@@ -57,17 +56,16 @@ const eliminarAlerta = async (req,res) => {
         }
     }
 
-    
     if(alerta.comentarios[0] !== undefined){
         alerta.comentarios.map(async (comentario) => {
             await prisma.daLikeComentario.deleteMany({
                 where: {comentarioId: comentario.id}
-            })
+            }) 
         })
 
         await prisma.comentario.deleteMany({
             where: {alertaId: parseInt(id)}
-        })
+        }) 
     }
 
     if(alerta.daLikeAlerta[0] !== undefined){
@@ -112,7 +110,7 @@ const obtenerAlertasTipoFecha = async (req,res) => {
 
     const alertas = await prisma.alerta.findMany({
         where: {tipo: tipo, fecha: { gte: fechaIniciarDate, lte: fechaFinalDate}},
-        include: {comentarios: true , daLikeAlerta: true}
+        include: {usuario: true, comentarios: true}
     }) 
 
     if(alertas.length === 0){
