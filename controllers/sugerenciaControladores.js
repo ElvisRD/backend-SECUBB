@@ -7,8 +7,8 @@ const crearSugerencia = async(req,res) => {
         data: {
             sugerencia,
             usuario: { connect: {id: usuarioId}},
-        
-        }
+        },
+        include: {usuario: true}
     })
 
     res.status(201).send({mensaje: "la sugerencia fue creada correctamente", sugerencia: nuevaSugerencia})
