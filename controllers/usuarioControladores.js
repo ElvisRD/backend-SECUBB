@@ -9,7 +9,7 @@ const verificarUsuario = async (req, res) => {
 
     let correoLowercase = correo.toLowerCase();
 
-    if(correo.includes("@ubiobio.cl") || correo.includes("@alumnos.ubiobio.cl")){
+    if(correo.includes("@ubiobio.cl") || correo.includes("@alumnos.ubiobio.cl") || correo.includes("@egresados.ubiobio.cl")){
 
         const cuenta = await prisma.usuario.findFirst({
             where: {
