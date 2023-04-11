@@ -2,8 +2,10 @@
 
 ## Contruido con
 
-- [Javascript]
-- [Prisma]
+- [NodeJs](https://nodejs.org/es)
+- [Javascript](https://www.javascript.com/)
+- [Socket.io](https://socket.io/)
+- [Prisma](https://www.prisma.io/)
 
 ## Primeros pasos
 
